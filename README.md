@@ -168,8 +168,9 @@ WantedBy=multi-user.target
 Ative o Socket e o Service:
 ```
 sudo systemctl start NOME_DO_SEU_SOCKET.socket
-sudo systemctl enable NOME_DO_SEU_SOCKET.socket
 sudo systemctl start NOME_DO_SEU_SERVICO.service
+
+sudo systemctl enable NOME_DO_SEU_SOCKET.socket
 sudo systemctl enable NOME_DO_SEU_SERVICO.service
 ```
 Comandos Úteis:
