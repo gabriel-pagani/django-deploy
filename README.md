@@ -38,7 +38,7 @@ sudo -u postgres psql
 Dentro do prompt psql, execute:
 ```
 -- Crie um usuário administrador para o PostgreSQL
-CREATE ROLE nome_do_usuario WITH LOGIN SUPERUSER CREATEDB CREATEROLE PASSWORD senha_forte;
+CREATE ROLE nome_do_usuario WITH LOGIN SUPERUSER CREATEDB CREATEROLE PASSWORD 'senha_forte';
 
 -- Crie o banco de dados
 CREATE DATABASE nome_do_banco WITH OWNER nome_do_usuario;
