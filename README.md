@@ -165,7 +165,7 @@ ExecStart=/home/SUA_PASTA_RAIZ_DO_PROJETO/venv/bin/gunicorn \
 [Install]
 WantedBy=multi-user.target
 ```
-Ative o Socket e o Service:
+Ative o socket e o service:
 ```
 sudo systemctl start NOME_DO_SEU_SOCKET.socket
 sudo systemctl start NOME_DO_SEU_SERVICO.service
@@ -173,7 +173,7 @@ sudo systemctl start NOME_DO_SEU_SERVICO.service
 sudo systemctl enable NOME_DO_SEU_SOCKET.socket
 sudo systemctl enable NOME_DO_SEU_SERVICO.service
 ```
-Comandos Úteis:
+Comandos úteis:
 ```
 sudo systemctl status NOME_DO_SEU_SOCKET.socket
 sudo systemctl status NOME_DO_SEU_SERVICO.service
