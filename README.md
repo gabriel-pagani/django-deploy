@@ -189,5 +189,89 @@ sudo systemctl daemon-reload
 ```
 
 ## 9.1. Configuração do Nginx para IP
+Atualize a timezone do servidor
+```
+sudo timedatectl set-timezone America/Sao_Paulo
+```
+Crie o arquvio de configuração:
+```
+sudo nano /etc/nginx/sites-available/seu_projeto
+```
+Conteúdo:
+```
+server {
+  listen 80;
+  listen [::]:80;
+  server_name SEU_IP;
+
+  # Add index.php to the list if you are using PHP
+  index index.html index.htm index.nginx-debian.html index.php;
+  
+  # ATTENTION: pasta/para/os/arquivos/estáticos
+  location /static {
+    autoindex on;
+    alias pasta/para/os/arquivos/estáticos;
+  }
+
+  # ATTENTION: pasta/para/os/arquivos/de/midia 
+  location /media {
+    autoindex on;
+    alias pasta/para/os/arquivos/de/midia;
+  }
+
+  # ATTENTION: NOME_DO_SEU_SOCKET
+  location / {
+    proxy_pass http://unix:/run/NOME_DO_SEU_SOCKET.socket;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+
+  location ~ /\.ht {
+    deny all;
+  }
+
+  location ~ /\. {
+    access_log off;
+    log_not_found off;
+    deny all;
+  }
+
+  gzip on;
+  gzip_disable "msie6";
+
+  gzip_comp_level 6;
+  gzip_min_length 1100;
+  gzip_buffers 4 32k;
+  gzip_proxied any;
+  gzip_types
+    text/plain
+    text/css
+    text/js
+    text/xml
+    text/javascript
+    application/javascript
+    application/x-javascript
+    application/json
+    application/xml
+    application/rss+xml
+    image/svg+xml;
+
+  access_log off;
+  #access_log  /var/log/nginx/SEU_IP-access.log;
+  error_log   /var/log/nginx/SEU_IP-error.log;
+}
+```
+Adicione a configuração para os sites ativos:
+```
+sudo ln -s /etc/nginx/sites-available/seu_projeto /etc/nginx/sites-enabled/seu_projeto
+```
+Verifique se as configurações estão corretas e reinicie o nginx:
+```
+sudo nginx -t
+sudo systemctl restart nginx
+```
 
 ## 9.2. Configuração do Nginx para Domínio
