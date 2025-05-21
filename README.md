@@ -187,3 +187,7 @@ sudo journalctl -u NOME_DO_SEU_SERVICO.service
 -- Rode isso caso altere algo no socket ou service
 sudo systemctl daemon-reload
 ```
+
+## 9.1. Configuração do Nginx para IP
+
+## 9.2. Configuração do Nginx para Domínio
