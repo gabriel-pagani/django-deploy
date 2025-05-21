@@ -183,5 +183,6 @@ sudo systemctl restart NOME_DO_SEU_SERVICO.service
 sudo journalctl -u NOME_DO_SEU_SOCKET.socket
 sudo journalctl -u NOME_DO_SEU_SERVICO.service
 
+-- Rode isso caso altere algo no socket ou service
 sudo systemctl daemon-reload
 ```
