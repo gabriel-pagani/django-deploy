@@ -178,8 +178,9 @@ sudo systemctl status NOME_DO_SEU_SOCKET.socket
 sudo systemctl status NOME_DO_SEU_SERVICO.service
 
 sudo systemctl restart NOME_DO_SEU_SOCKET.socket
-sudo journalctl -u NOME_DO_SEU_SOCKET.socket
 sudo systemctl restart NOME_DO_SEU_SERVICO.service
+
+sudo journalctl -u NOME_DO_SEU_SOCKET.socket
 sudo journalctl -u NOME_DO_SEU_SERVICO.service
 
 sudo systemctl daemon-reload
