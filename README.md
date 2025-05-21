@@ -189,7 +189,7 @@ sudo systemctl daemon-reload
 ```
 
 ## 9.1. Configuração do Nginx para IP
-Atualize a timezone do servidor
+Atualize a timezone do servidor (Opcional):
 ```
 sudo timedatectl set-timezone America/Sao_Paulo
 ```
