@@ -82,7 +82,7 @@ Crie o arquivo local_settings.py dentro da pasta do projeto Django (onde está o
 ```
 nano caminho/do/seu_projeto/settings/local_settings.py
 ```
-Conteúdo sugerido:
+Conteúdo:
 ```
 SECRET_KEY = 'chave_secreta_gerada'
 
@@ -118,4 +118,69 @@ except ImportError:
 python manage.py migrate
 python manage.py collectstatic --noinput
 python manage.py createsuperuser
+```
+
+## 8. Configuração do Gunicorn
+Crie o socket:
+```
+sudo nano /etc/systemd/system/NOME_PARA_SEU_SOCKET.socket
+```
+Conteúdo:
+```
+[Unit]
+Description=gunicorn blog socket
+
+[Socket]
+ListenStream=/run/NOME_PARA_SEU_SOCKET.socket
+
+[Install]
+WantedBy=sockets.target
+```
+Crie o serviço:
+```
+sudo nano /etc/systemd/system/NOME_PARA_SEU_SERVICO.service
+```
+Conteúdo:
+```
+[Unit]
+Description=Gunicorn daemon
+Requires=NOME_DO_SEU_SOCKET.socket
+After=network.target
+
+[Service]
+User=SEU_USUARIO_DO_SERVIDOR
+Group=www-data
+Restart=on-failure
+WorkingDirectory=/home/SUA_PASTA_RAIZ_DO_PROJETO
+ExecStart=/home/SUA_PASTA_RAIZ_DO_PROJETO/venv/bin/gunicorn \
+          --error-logfile /home/SUA_PASTA_RAIZ_DO_PROJETO/gunicorn-error-log \
+          --enable-stdio-inheritance \
+          --log-level "debug" \
+          --capture-output \
+          --access-logfile - \
+          --workers 6 \
+          --bind unix:/run/NOME_DO_SEU_SOCKET.socket \
+          PASTA_COM_O_ARQUIVO_SETTINGS.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+```
+Ative o Socket e o Service:
+```
+sudo systemctl start NOME_DO_SEU_SOCKET.socket
+sudo systemctl enable NOME_DO_SEU_SOCKET.socket
+sudo systemctl start NOME_DO_SEU_SERVICO.service
+sudo systemctl enable NOME_DO_SEU_SERVICO.service
+```
+Comandos Úteis:
+```
+sudo systemctl status NOME_DO_SEU_SOCKET.socket
+sudo systemctl status NOME_DO_SEU_SERVICO.service
+
+sudo systemctl restart NOME_DO_SEU_SOCKET.socket
+sudo journalctl -u NOME_DO_SEU_SOCKET.socket
+sudo systemctl restart NOME_DO_SEU_SERVICO.service
+sudo journalctl -u NOME_DO_SEU_SERVICO.service
+
+sudo systemctl daemon-reload
 ```
